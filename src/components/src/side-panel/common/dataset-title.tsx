@@ -24,14 +24,24 @@ import {FormattedMessage} from '@kepler.gl/localization';
 
 import {Table} from '@kepler.gl/layers';
 import {CenterFlexbox, Tooltip} from '../../common/styled-components';
-import {ArrowRight, Trash} from '../../common/icons';
+import {ArrowRight, Trash, Refresh} from '../../common/icons';
 import DatasetTagFactory from './dataset-tag';
 import CustomPicker from '../layer-panel/custom-picker';
 import {Portaled} from '../..';
 import {rgbToHex} from '@kepler.gl/utils';
-import {openDeleteModal, VisStateActions, ActionHandler} from '@kepler.gl/actions';
+import {
+  openDeleteModal,
+  openRefreshDatasetModal,
+  VisStateActions,
+  ActionHandler
+} from '@kepler.gl/actions';
 import {RGBColor} from '@kepler.gl/types';
-import {StyledDatasetTitleProps, RemoveDatasetProps, ShowDataTableProps} from './types';
+import {
+  StyledDatasetTitleProps,
+  RemoveDatasetProps,
+  ShowDataTableProps,
+  RefreshDatasetProps
+} from './types';
 
 const StyledDatasetTitle = styled.div<StyledDatasetTitleProps>`
   color: ${props => props.theme.textColor};
@@ -41,21 +51,20 @@ const StyledDatasetTitle = styled.div<StyledDatasetTitleProps>`
   .source-data-arrow {
     height: 16px;
   }
-  :hover {
-    cursor: ${props => (props.clickable ? 'pointer' : 'auto')};
 
-    .dataset-name {
-      color: ${props => (props.clickable ? props.theme.textColorHl : props.theme.textColor)};
-    }
+  cursor: ${props => (props.clickable ? 'pointer' : 'auto')};
 
-    .dataset-action {
-      color: ${props => props.theme.textColor};
-      opacity: 1;
-    }
+  .dataset-name {
+    color: ${props => (props.clickable ? props.theme.textColorHl : props.theme.textColor)};
+  }
 
-    .dataset-action:hover {
-      color: ${props => props.theme.textColorHl};
-    }
+  .dataset-action {
+    color: ${props => props.theme.textColor};
+    opacity: 1;
+  }
+
+  .dataset-action:hover {
+    color: ${props => props.theme.textColorHl};
   }
 `;
 
@@ -74,10 +83,12 @@ type MiniDataset = {
 export type DatasetTitleProps = {
   dataset: MiniDataset;
   showDeleteDataset: boolean;
+  showRefreshDataset: boolean;
   onTitleClick?: () => void;
   showDatasetTable?: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset?: ActionHandler<typeof openDeleteModal>;
+  refreshDatasetHandler?: ActionHandler<typeof openRefreshDatasetModal>;
 };
 
 const ShowDataTable = ({id, showDatasetTable}: ShowDataTableProps) => (
@@ -118,6 +129,29 @@ const RemoveDataset = ({datasetKey, removeDataset}: RemoveDatasetProps) => (
   </DataTagAction>
 );
 
+const RefreshDataset = ({datasetKey, refreshDatasetHandler}: RefreshDatasetProps) => (
+  <DataTagAction
+    className="dataset-action refresh-dataset"
+    data-tip
+    data-for={`refresh-${datasetKey}`}
+  >
+    <Refresh
+      height="16px"
+      onClick={e => {
+        e.stopPropagation();
+        if (refreshDatasetHandler) {
+          refreshDatasetHandler(datasetKey);
+        }
+      }}
+    />
+    <Tooltip id={`refresh-${datasetKey}`} effect="solid">
+      <span>
+        <FormattedMessage id={'datasetTitle.refreshDataset'} />
+      </span>
+    </Tooltip>
+  </DataTagAction>
+);
+
 DatasetTitleFactory.deps = [DatasetTagFactory];
 
 export default function DatasetTitleFactory(
@@ -126,8 +160,10 @@ export default function DatasetTitleFactory(
   const DatasetTitle: React.FC<DatasetTitleProps> = ({
     showDatasetTable,
     showDeleteDataset,
+    showRefreshDataset,
     onTitleClick,
     removeDataset,
+    refreshDatasetHandler,
     dataset,
     updateTableColor
   }) => {
@@ -194,6 +230,9 @@ export default function DatasetTitleFactory(
           ) : null}
           {showDeleteDataset ? (
             <RemoveDataset datasetKey={datasetId} removeDataset={removeDataset} />
+          ) : null}
+          {showRefreshDataset ? (
+            <RefreshDataset datasetKey={datasetId} refreshDatasetHandler={refreshDatasetHandler} />
           ) : null}
         </StyledDatasetTitle>
       </div>

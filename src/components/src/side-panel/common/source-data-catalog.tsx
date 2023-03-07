@@ -21,7 +21,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {openDeleteModal, VisStateActions, ActionHandler} from '@kepler.gl/actions';
+import {
+  openDeleteModal,
+  openRefreshDatasetModal,
+  VisStateActions,
+  ActionHandler
+} from '@kepler.gl/actions';
 import {DataContainerInterface} from '@kepler.gl/utils';
 import {RGBColor} from '@kepler.gl/types';
 
@@ -38,6 +43,9 @@ type MiniDataset = {
   color: RGBColor;
   label?: string;
   dataContainer: DataContainerInterface;
+  metadata?: {
+    refreshDataset?: boolean;
+  };
 };
 
 type MiniDatasets = {
@@ -47,11 +55,15 @@ type MiniDatasets = {
 export type SourceDataCatalogProps = {
   datasets: MiniDatasets;
   showDeleteDataset?: boolean;
+  showRefreshDataset?: boolean;
   onTitleClick?: () => void;
   showDatasetTable?: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset?: ActionHandler<typeof openDeleteModal>;
+  refreshDataset?: ActionHandler<typeof openRefreshDatasetModal>;
 };
+
+const shouldShowRefreshDs = (dataset: MiniDataset) => Boolean(dataset?.metadata?.refreshDataset);
 
 SourceDataCatalogFactory.deps = [DatasetTitleFactory, DatasetInfoFactory];
 
@@ -63,9 +75,11 @@ function SourceDataCatalogFactory(
     datasets,
     showDatasetTable,
     removeDataset,
+    refreshDataset,
     onTitleClick,
     updateTableColor,
-    showDeleteDataset = false
+    showDeleteDataset = false,
+    showRefreshDataset = false
   }: SourceDataCatalogProps) => (
     <SourceDataCatalogWrapper className="source-data-catalog">
       {Object.values(datasets).map(dataset => (
@@ -73,7 +87,9 @@ function SourceDataCatalogFactory(
           <DatasetTitle
             showDatasetTable={showDatasetTable}
             showDeleteDataset={showDeleteDataset}
+            showRefreshDataset={shouldShowRefreshDs(dataset)}
             removeDataset={removeDataset}
+            refreshDatasetHandler={refreshDataset}
             dataset={dataset}
             onTitleClick={onTitleClick}
             updateTableColor={updateTableColor}

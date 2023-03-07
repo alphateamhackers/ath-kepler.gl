@@ -36,6 +36,7 @@ import {
 
 // modals
 import DeleteDatasetModalFactory from './modals/delete-data-modal';
+import RefreshDatasetModalFactory from './modals/refresh-data-modal';
 import OverWriteMapModalFactory from './modals/overwrite-map-modal';
 import DataTableModalFactory from './modals/data-table-modal';
 import LoadDataModalFactory from './modals/load-data-modal';
@@ -57,6 +58,7 @@ import {
   ADD_DATA_ID,
   DATA_TABLE_ID,
   DELETE_DATA_ID,
+  REFRESH_DATASET_ID,
   EXPORT_DATA_ID,
   EXPORT_IMAGE_ID,
   EXPORT_MAP_ID,
@@ -131,6 +133,7 @@ export type ModalContainerProps = {
 
 ModalContainerFactory.deps = [
   DeleteDatasetModalFactory,
+  RefreshDatasetModalFactory,
   OverWriteMapModalFactory,
   DataTableModalFactory,
   LoadDataModalFactory,
@@ -145,6 +148,7 @@ ModalContainerFactory.deps = [
 
 export default function ModalContainerFactory(
   DeleteDatasetModal: ReturnType<typeof DeleteDatasetModalFactory>,
+  RefreshDatasetModal: ReturnType<typeof RefreshDatasetModalFactory>,
   OverWriteMapModal: ReturnType<typeof OverWriteMapModalFactory>,
   DataTableModal: ReturnType<typeof DataTableModalFactory>,
   LoadDataModal: ReturnType<typeof LoadDataModalFactory>,
@@ -287,7 +291,7 @@ export default function ModalContainerFactory(
         uiStateActions,
         providerState
       } = this.props;
-      const {currentModal, datasetKeyToRemove} = uiState;
+      const {currentModal, datasetKey} = uiState;
       const {datasets, layers, editingDataset} = visState;
 
       let template: JSX.Element | null = null;
@@ -328,15 +332,13 @@ export default function ModalContainerFactory(
             break;
           case DELETE_DATA_ID:
             // validate options
-            if (datasetKeyToRemove && datasets && datasets[datasetKeyToRemove]) {
-              template = (
-                <DeleteDatasetModal dataset={datasets[datasetKeyToRemove]} layers={layers} />
-              );
+            if (datasetKey && datasets && datasets[datasetKey]) {
+              template = <DeleteDatasetModal dataset={datasets[datasetKey]} layers={layers} />;
               modalProps = {
                 title: 'modal.title.deleteDataset',
                 cssStyle: smallModalCss,
                 footer: true,
-                onConfirm: () => this._deleteDataset(datasetKeyToRemove),
+                onConfirm: () => this._deleteDataset(datasetKey),
                 onCancel: this._closeModal,
                 confirmButton: {
                   negative: true,
@@ -346,6 +348,18 @@ export default function ModalContainerFactory(
               };
             }
             break; // in case we add a new case after this one
+          case REFRESH_DATASET_ID:
+            // validate options
+            if (!datasetKey || !datasets || !datasets[datasetKey]) {
+              break;
+            }
+            template = <RefreshDatasetModal dataset={datasets[datasetKey]} layers={layers} />;
+            modalProps = {
+              title: 'modal.title.refreshDataset',
+              cssStyle: LoadDataModalStyle,
+              footer: false
+            };
+            break;
           case ADD_DATA_ID:
             template = (
               <LoadDataModal

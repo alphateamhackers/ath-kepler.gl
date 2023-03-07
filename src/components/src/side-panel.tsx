@@ -136,7 +136,7 @@ export default function SidePanelFactory(
       version,
       width
     } = props;
-    const {openDeleteModal, toggleModal, toggleSidePanel} = uiStateActions;
+    const {openDeleteModal, openRefreshDatasetModal, toggleModal, toggleSidePanel} = uiStateActions;
     const {activeSidePanel} = uiState;
     const {setMapInfo, showDatasetTable, updateTableColor} = visStateActions;
     const {hasShare, hasStorage} = availableProviders;
@@ -173,6 +173,9 @@ export default function SidePanelFactory(
     const onShowAddDataModal = useCallback(() => toggleModal(ADD_DATA_ID), [toggleModal]);
     const onShowAddMapStyleModal = useCallback(() => toggleModal(ADD_MAP_STYLE_ID), [toggleModal]);
     const onRemoveDataset = useCallback(dataId => openDeleteModal(dataId), [openDeleteModal]);
+    const onRefreshDataset = useCallback(dataId => openRefreshDatasetModal(dataId), [
+      openRefreshDatasetModal
+    ]);
     const onSaveToStorage = useMemo(() => (hasStorage ? onClickSaveToStorage : null), [
       hasStorage,
       onClickSaveToStorage
@@ -233,6 +236,7 @@ export default function SidePanelFactory(
                 mapStateActions={mapStateActions}
                 interactionConfig={interactionConfig}
                 removeDataset={onRemoveDataset}
+                refreshDataset={onRefreshDataset}
                 showDatasetTable={onShowDatasetTable}
                 updateTableColor={onUpdateTableColor}
                 showAddDataModal={onShowAddDataModal}

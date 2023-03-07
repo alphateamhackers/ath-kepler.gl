@@ -23,6 +23,7 @@ import {
   DATA_TABLE_ID,
   DEFAULT_NOTIFICATION_TOPICS,
   DELETE_DATA_ID,
+  REFRESH_DATASET_ID,
   EXPORT_DATA_TYPE,
   EXPORT_HTML_MAP_MODES,
   EXPORT_IMG_RATIOS,
@@ -231,7 +232,7 @@ export const DEFAULT_EXPORT_MAP: ExportMap = {
  * @property readOnly Default: `false`
  * @property activeSidePanel Default: `'layer'`
  * @property currentModal Default: `'addData'`
- * @property datasetKeyToRemove Default: `null`
+ * @property datasetKey Default: `null`
  * @property visibleDropdown Default: `null`
  * @property exportImage Default: [`DEFAULT_EXPORT_IMAGE`](#default_export_image)
  * @property exportData Default: [`DEFAULT_EXPORT_DATA`](#default_export_data)
@@ -246,7 +247,7 @@ export const INITIAL_UI_STATE: UiState = {
   readOnly: false,
   activeSidePanel: DEFAULT_ACTIVE_SIDE_PANEL,
   currentModal: DEFAULT_MODAL,
-  datasetKeyToRemove: null,
+  datasetKey: null,
   visibleDropdown: null,
   // export image modal ui
   exportImage: DEFAULT_EXPORT_IMAGE,
@@ -418,11 +419,29 @@ export const setMapControlVisibilityUpdater = (
  */
 export const openDeleteModalUpdater = (
   state: UiState,
-  {payload: datasetKeyToRemove}: UIStateActions.OpenDeleteModalUpdaterAction
+  {payload: datasetKey}: UIStateActions.OpenRefreshDatasetModalUpdaterAction
 ): UiState => ({
   ...state,
   currentModal: DELETE_DATA_ID,
-  datasetKeyToRemove
+  datasetKey
+});
+
+/**
+ * Toggle refresh dataset modal
+ * @memberof uiStateUpdaters
+ * @param state `uiState`
+ * @param action
+ * @param action.payload dataset id
+ * @returns nextState
+ * @public
+ */
+export const openRefreshDatasetModalUpdater = (
+  state: UiState,
+  {payload: datasetKey}: UIStateActions.OpenDeleteModalUpdaterAction
+): UiState => ({
+  ...state,
+  currentModal: REFRESH_DATASET_ID,
+  datasetKey
 });
 
 /**

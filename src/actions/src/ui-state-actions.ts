@@ -178,6 +178,26 @@ export const openDeleteModal: (
   (datasetId: OpenDeleteModalUpdaterAction['payload']) => ({payload: datasetId})
 );
 
+/** OPEN_REFRESH_MODAL */
+export type OpenRefreshDatasetModalUpdaterAction = {
+  payload: string;
+};
+/**
+ * Toggle refresh dataset modal
+ * @memberof uiStateActions
+ * @param datasetId - `id` of the dataset to be deleted
+ * @public
+ */
+export const openRefreshDatasetModal: (
+  datasetId: OpenRefreshDatasetModalUpdaterAction['payload']
+) => Merge<
+  OpenRefreshDatasetModalUpdaterAction,
+  {type: typeof ActionTypes.OPEN_REFRESH_DATASET_MODAL}
+> = createAction(
+  ActionTypes.OPEN_REFRESH_DATASET_MODAL,
+  (datasetId: OpenRefreshDatasetModalUpdaterAction['payload']) => ({payload: datasetId})
+);
+
 /** ADD_NOTIFICATION */
 export type AddNotificationUpdaterAction = {
   payload: object;

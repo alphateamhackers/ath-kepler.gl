@@ -367,7 +367,7 @@ export type UiState = {
   readOnly: boolean;
   activeSidePanel: string;
   currentModal: string | null;
-  datasetKeyToRemove: string | null;
+  datasetKey: string | null;
   visibleDropdown: string | null;
   // export image modal ui
   exportImage: ExportImage;
