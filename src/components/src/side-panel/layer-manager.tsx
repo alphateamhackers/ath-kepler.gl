@@ -64,6 +64,7 @@ type LayerManagerProps = {
   visStateActions: typeof VisStateActions;
   showAddDataModal: () => void;
   removeDataset: ActionHandler<typeof UIStateActions.openDeleteModal>;
+  refreshDataset: ActionHandler<typeof UIStateActions.openRefreshDatasetModal>;
   showDatasetTable: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   panelListView: PanelListView;
@@ -189,6 +190,7 @@ function LayerManagerFactory(
         updateTableColor,
         showDatasetTable,
         removeDataset,
+        refreshDataset,
         uiStateActions,
         visStateActions,
         panelListView,
@@ -210,6 +212,7 @@ function LayerManagerFactory(
             showDatasetTable={showDatasetTable}
             updateTableColor={updateTableColor}
             removeDataset={removeDataset}
+            refreshDataset={refreshDataset}
             showDeleteDataset
             showDatasetList={!isSortByDatasetMode}
             showAddDataModal={showAddDataModal}

@@ -123,7 +123,7 @@ test('#uiStateReducer -> OPEN_DELETE_MODAL', t => {
   const expectedState = {
     ...INITIAL_UI_STATE,
     currentModal: 'deleteData',
-    datasetKeyToRemove: 'chai'
+    datasetKey: 'chai'
   };
 
   t.deepEqual(newReducer, expectedState, 'should open delete data modal and save key to remove');

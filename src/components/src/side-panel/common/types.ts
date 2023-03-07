@@ -1,5 +1,10 @@
 import React from 'react';
-import {openDeleteModal, VisStateActions, ActionHandler} from '@kepler.gl/actions';
+import {
+  openDeleteModal,
+  openRefreshDatasetModal,
+  VisStateActions,
+  ActionHandler
+} from '@kepler.gl/actions';
 import {RGBColor} from '@kepler.gl/types';
 import KeplerTable from '@kepler.gl/table';
 
@@ -23,6 +28,11 @@ export type ShowDataTableProps = {
 export type RemoveDatasetProps = {
   datasetKey: string;
   removeDataset?: ActionHandler<typeof openDeleteModal>;
+};
+
+export type RefreshDatasetProps = {
+  datasetKey: string;
+  refreshDatasetHandler?: ActionHandler<typeof openRefreshDatasetModal>;
 };
 
 export type StyledDatasetTitleProps = {

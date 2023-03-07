@@ -72,6 +72,7 @@ export {default as Pause} from './pause';
 export {default as Picture} from './picture';
 export {default as Play} from './play';
 export {default as Reduce} from './reduce';
+export {default as Refresh} from './refresh';
 export {default as Reset} from './reset';
 export {default as Rocket} from './rocket';
 export {default as Save} from './save';

@@ -54,6 +54,13 @@ export const DATA_TABLE_ID = 'dataTable';
  */
 export const DELETE_DATA_ID = 'deleteData';
 /**
+ * Modal id: refresh dataset modal
+ * @constant
+ * @type {string}
+ * @public
+ */
+export const REFRESH_DATASET_ID = 'refreshData';
+/**
  * Modal id: add data modal
  * @constant
  * @type {string}

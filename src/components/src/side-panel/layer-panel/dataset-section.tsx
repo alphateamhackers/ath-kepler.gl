@@ -40,6 +40,7 @@ type DatasetSectionProps = {
   showDatasetTable: ActionHandler<typeof VisStateActions.showDatasetTable>;
   updateTableColor: ActionHandler<typeof VisStateActions.updateTableColor>;
   removeDataset: ActionHandler<typeof UIStateActions.openDeleteModal>;
+  refreshDataset?: ActionHandler<typeof UIStateActions.openRefreshDatasetModal>;
   showAddDataModal: () => void;
 };
 
@@ -91,6 +92,7 @@ function DatasetSectionFactory(
       updateTableColor,
       showDeleteDataset,
       removeDataset,
+      refreshDataset,
       showDatasetList,
       showAddDataModal
     } = props;
@@ -108,6 +110,7 @@ function DatasetSectionFactory(
             showDatasetTable={showDatasetTable}
             updateTableColor={updateTableColor}
             removeDataset={removeDataset}
+            refreshDataset={refreshDataset}
             showDeleteDataset={showDeleteDataset}
           />
         )}

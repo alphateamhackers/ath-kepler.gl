@@ -314,6 +314,7 @@ export const bottomWidgetBgd = '#29323C';
 // Modal
 export const modalTitleColor = '#3A414C';
 export const modalTitleFontSize = '24px';
+export const modalTitleFontWeight = '400';
 export const modalTitleFontSizeSmaller = '18px';
 export const modalFooterBgd = '#F8F8F9';
 export const modalImagePlaceHolder = '#DDDFE3';
@@ -1315,6 +1316,7 @@ export const theme = {
   // Modal
   modalTitleColor,
   modalTitleFontSize,
+  modalTitleFontWeight,
   modalTitleFontSizeSmaller,
   modalFooterBgd,
   modalImagePlaceHolder,

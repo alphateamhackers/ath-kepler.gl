@@ -2612,5 +2612,8 @@ export default {
         -122.4344509
       ]
     ]
+  },
+  metadata: {
+    refreshDataset: true
   }
 };
