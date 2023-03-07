@@ -18,6 +18,7 @@
         "url": "https://github.com/keplergl/kepler.gl.git"
     },
     "scripts": {
+        "pack": "yarn pack",
         "prepublish": " ",
         "stab": " "
     },
