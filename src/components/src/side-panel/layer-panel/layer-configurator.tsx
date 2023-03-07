@@ -616,15 +616,15 @@ export default function LayerConfiguratorFactory(
             </ConfigGroupCollapsibleContent>
           </LayerConfigGroup>
 
-          {/* elevation scale */}
-          {layer.visConfigSettings.elevationScale ? (
+          {/* Disable elevation scale */}
+          {/* {layer.visConfigSettings.elevationScale ? (
             <LayerConfigGroup label="layerVisConfigs.elevationScale" collapsible>
               <VisConfigSlider
                 {...layer.visConfigSettings.elevationScale}
                 {...visConfiguratorProps}
               />
             </LayerConfigGroup>
-          ) : null}
+          ) : null} */}
         </StyledLayerVisualConfigurator>
       );
     }
@@ -706,7 +706,7 @@ export default function LayerConfiguratorFactory(
     }) {
       const {
         meta: {featureTypes = {}},
-        config: {visConfig}
+        config: {}
       } = layer;
 
       return (
@@ -790,8 +790,8 @@ export default function LayerConfiguratorFactory(
             </ConfigGroupCollapsibleContent>
           </LayerConfigGroup>
 
-          {/* Elevation */}
-          {featureTypes.polygon ? (
+          {/* Disable Elevation */}
+          {/* {featureTypes.polygon ? (
             <LayerConfigGroup
               {...visConfiguratorProps}
               {...layer.visConfigSettings.enable3d}
@@ -815,7 +815,7 @@ export default function LayerConfiguratorFactory(
                 <VisConfigSwitch {...visConfiguratorProps} {...layer.visConfigSettings.wireframe} />
               </ConfigGroupCollapsibleContent>
             </LayerConfigGroup>
-          ) : null}
+          ) : null} */}
 
           {/* Radius */}
           {featureTypes.point ? (
@@ -1003,9 +1003,7 @@ export default function LayerConfiguratorFactory(
 
     render() {
       const {layer, datasets, updateLayerConfig, layerTypeOptions, updateLayerType} = this.props;
-      const {fields = [], fieldPairs = undefined} = layer.config.dataId
-        ? datasets[layer.config.dataId]
-        : {};
+      const {fields = []} = layer.config.dataId ? datasets[layer.config.dataId] : {};
       const {config} = layer;
 
       const visConfiguratorProps = getVisConfiguratorProps(this.props);
@@ -1042,7 +1040,7 @@ export default function LayerConfiguratorFactory(
                 // @ts-ignore
                 columnLabels={layer.columnLabels}
                 fields={fields}
-                fieldPairs={fieldPairs}
+                // fieldPairs={fieldPairs} // Disable "Suggested Field" option in dropdowns
                 updateLayerConfig={updateLayerConfig}
               />
             </ConfigGroupCollapsibleContent>
